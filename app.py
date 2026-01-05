@@ -547,7 +547,7 @@ with col_status1:
 
 with col_status2:
     # Bouton refresh avec compteur
-    if st.button("🔄 Refresh", use_container_width=True):
+    if st.button("🔄 Refresh", width='stretch'):
         st.session_state.clear()
         st.rerun()
 
@@ -699,7 +699,7 @@ if trend_data:
         st.info(f"💡 **Interprétation** : {trend_data['interpretation']}")
 
 # --- SECTION 6 : BOUTON CALCUL PRINCIPAL ---
-if st.button("🚀 CALCULER LE GEX", type="primary", use_container_width=True):
+if st.button("🚀 CALCULER LE GEX", type="primary", width='stretch'):
     
     with st.spinner("🧮 Calcul en cours..."):
         df, cw, pw, zg, warns, conf = process_gex(
@@ -847,7 +847,7 @@ if st.button("🚀 CALCULER LE GEX", type="primary", use_container_width=True):
             strokeWidth=0
         ).interactive()
         
-        st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(chart, width='stretch')
         
         st.divider()
         
@@ -878,7 +878,7 @@ if st.button("🚀 CALCULER LE GEX", type="primary", use_container_width=True):
                 strokeDash=[5, 5]
             ).encode(y='zg:Q')
             
-            st.altair_chart(hist_chart + current_zg_line, use_container_width=True)
+            st.altair_chart(hist_chart + current_zg_line, width='stretch')
         
         st.divider()
         
@@ -886,7 +886,7 @@ if st.button("🚀 CALCULER LE GEX", type="primary", use_container_width=True):
         st.markdown("### 📋 Code pour TradingView (Pine Script)")
         
         # Génération du code avec timestamp
-        tv_code = f"""// ═══════════════════════════════════════════════════════════
+        tv_code = f\"\"\"// ══════════════════════════════════════════════════════════�[...]
 // GEX Update - {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}
 // Confiance: {conf:.0f}% | Spot: ${spot:,.2f}
 // ═══════════════════════════════════════════════════════════
@@ -896,7 +896,7 @@ float put_wall = {pw}
 float zero_gamma = {zg}
 
 // Distance au Zero Gamma: {((zg - spot) / spot * 100):+.2f}%
-// Bias: {"HAUSSIER" if spot < zg else "BAISSIER" if spot > zg else "NEUTRE"}"""
+// Bias: {"HAUSSIER" if spot < zg else "BAISSIER" if spot > zg else "NEUTRE"}\"\"\"
         
         col_code1, col_code2 = st.columns([4, 1])
         
@@ -905,7 +905,7 @@ float zero_gamma = {zg}
         
         with col_code2:
             # Bouton copie (nécessite pyperclip, sinon fallback)
-            if st.button("📋 Copier", key="copy_btn", use_container_width=True):
+            if st.button("📋 Copier", key="copy_btn", width='stretch'):
                 try:
                     import pyperclip
                     pyperclip.copy(tv_code)
